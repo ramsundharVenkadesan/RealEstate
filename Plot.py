@@ -5,10 +5,14 @@ import re
 from collections import Counter
 import matplotlib.pyplot as plt
 import os
+import sys
 
 # --- Configuration ---
 JSON_FILE_NAME = "globe.json"
 OUTPUT_FILE_NAME = 'price_analysis_globe.jpeg'
+
+
+# N_SAMPLES is removed as we now plot all listings.
 
 
 # --- Data Cleaning Functions ---
@@ -63,37 +67,38 @@ def calculate_stats(df):
 
     # Calculate Averages
     avg_price = sum(prices) / len(prices) if prices else 0
-
-    # Average Beds (MODIFIED: Rounded and cast to integer as requested)
     avg_beds_float = sum(beds) / len(beds) if beds else 0
-    avg_beds_int = int(round(avg_beds_float))
-
-    # Average Baths (Remains a float to show half-bath precision as requested)
     avg_baths = sum(baths) / len(baths) if baths else 0
-
-    # Average Sq. Ft.
     avg_sqft = sum(sq_fts) / len(sq_fts) if sq_fts else 0
+
+    # Average Beds (Rounded and cast to integer as requested)
+    avg_beds_int = int(round(avg_beds_float))
 
     # Find Real Estate Agency with Most Listings
     most_common_agency = "N/A"
+    agency_count = 0
     if agencies:
         agency_counts = Counter(agencies)
         # most_common(1) returns a list of the single most common item and its count: [('Agency Name', count)]
-        most_common_agency, count = agency_counts.most_common(1)[0]
+        most_common_agency, agency_count = agency_counts.most_common(1)[0]
 
+    # Format the stats for the plot text box
     return {
         "avg_price": f"${avg_price:,.2f}",
         "avg_beds": avg_beds_int,
         "avg_baths": f"{avg_baths:.2f}",
         "avg_sqft": f"{avg_sqft:,.2f}",
-        "most_common_agency": most_common_agency
+        "most_common_agency": most_common_agency,
+        "agency_text": f"{most_common_agency} ({agency_count} Listings)"
     }
 
 
 def generate_analysis_plot(json_file_name, output_file_name):
     """
-    Main function to load data, analyze it, and generate the plot.
+    Generates a LINE GRAPH of ALL listings, sorted by price, with annotations on every point.
     """
+    print(f"Generating plot from data in: {json_file_name}")
+
     if not os.path.exists(json_file_name):
         print(f"Error: JSON file '{json_file_name}' not found. Please ensure it is in the current directory.")
         return
@@ -122,53 +127,82 @@ def generate_analysis_plot(json_file_name, output_file_name):
     df['baths'] = df['baths'].apply(clean_and_convert_to_float)
     df['sq_ft'] = df['sq_ft'].apply(clean_and_convert_to_float)
 
-    # Filter out rows where price could not be determined for sorting/plotting
-    df_plot = df.dropna(subset=['price']).copy()
+    # Filter all rows with valid price data
+    df_filtered = df.dropna(subset=['price']).copy()
 
-    if df_plot.empty:
+    if df_filtered.empty:
         print("Error: No valid price data found after cleaning. Cannot generate plot.")
         return
 
-    # 2. Sort Data (Lowest to Highest Price)
+    # 2. Prepare Data for Plotting (ALL Listings, Sorted)
     print("Sorting listings by price...")
-    df_plot = df_plot.sort_values(by='price', ascending=True).reset_index(drop=True)
+    # Sort ALL valid listings by price (lowest to highest)
+    df_plot = df_filtered.sort_values(by='price', ascending=True).reset_index(drop=True)
 
     # 3. Calculate Statistics (using the full cleaned dataset)
-    stats = calculate_stats(df)
+    stats = calculate_stats(df_filtered)
+    # Extract float value for the average price line
     avg_price_float = float(stats['avg_price'].replace('$', '').replace(',', ''))
-
-    # Print the calculated stats to the console
-    print("\n" + "=" * 50)
-    print("Real Estate Analysis Summary:")
-    print("=" * 50)
-    stat_text_console = (
-        f"Average Price: {stats['avg_price']}\n"
-        f"Average Bedrooms: {stats['avg_beds']} (Integer)\n"
-        f"Average Bathrooms: {stats['avg_baths']} (Float)\n"
-        f"Average Sq. Ft.: {stats['avg_sqft']} sq ft\n"
-        f"Most Common Agency: {stats['most_common_agency']}"
-    )
-    print(stat_text_console)
-    print("=" * 50 + "\n")
+    total_listings = len(df_plot)
 
     # 4. Generate the Line Graph
     print(f"Generating plot and saving to '{output_file_name}'...")
-    plt.figure(figsize=(12, 7))
+    # Increased figure size to better accommodate annotations
+    plt.figure(figsize=(16, 9))
+    ax = plt.gca()
 
-    # Plot the sorted prices
-    plt.plot(df_plot.index, df_plot['price'], marker='o', linestyle='-',
-             color='#1f77b4', linewidth=1.5, markersize=5, label='Individual Listing Price')
+    # Plot all sorted prices
+    plt.plot(
+        df_plot.index,
+        df_plot['price'],
+        marker='o',  # Use markers for data points
+        linestyle='-',  # Connect markers with a line
+        color='#1f77b4',
+        linewidth=1.5,
+        markersize=4,
+        label=f'Individual Listing Price (N={total_listings})'
+    )
 
     # Add a line for the overall average price for context
     plt.axhline(avg_price_float, color='#d62728', linestyle='--', linewidth=2,
                 label=f'Average Price ({stats["avg_price"]})')
 
-    # Formatting the plot
-    plt.title(f'Real Estate Listing Prices in {json_file_name.replace(".json", "").capitalize()}',
+    # 5. Add Annotations for ALL Listings (Price and Address)
+    # WARNING: This will likely result in a heavily cluttered plot.
+    for index, row in df_plot.iterrows():
+        # Format the data for the label (Price and Address only, as requested)
+        price_str = f"${row['price']:,.0f}" if pd.notna(row['price']) else "N/A"
+        address_str = row['address'] if row['address'] else "Address N/A"
+
+        # Build the annotation text string
+        annotation_text = f"Price: {price_str}\n{address_str}"
+
+        # Coordinates for the point on the plot
+        x_coord = index
+        y_coord = row['price']
+
+        # Use very small font and minimal offset for annotations
+        ax.annotate(
+            annotation_text,
+            xy=(x_coord, y_coord),
+            xytext=(3, 5),  # Minimal offset (in points)
+            textcoords='offset points',
+            ha='left',
+            fontsize=5,  # Very small font to reduce clutter
+            bbox=dict(boxstyle="round,pad=0.2", fc="white", alpha=0.7, ec="gray", lw=0.3),
+            arrowprops=dict(arrowstyle="->", connectionstyle="arc3,rad=0.0", fc="black", lw=0.5)
+        )
+
+    # 6. Final Plot Styling
+
+    plt.title(f'Price Distribution of ALL Listings in {json_file_name.replace(".json", "").capitalize()} (Annotated)',
               fontsize=16, fontweight='bold', pad=20)
-    plt.xlabel(f'Listing Index (Sorted by Price from Lowest to Highest, N={len(df_plot)})', fontsize=12)
+    plt.xlabel(f'Listing Index (Sorted by Price from Lowest to Highest, N={total_listings})', fontsize=12)
     plt.ylabel('Price (USD)', fontsize=12)
     plt.grid(True, which='major', linestyle=':', linewidth=0.7, alpha=0.6)
+
+    # Remove X-ticks as before to prevent overcrowding
+    ax.set_xticks([])
 
     # Adjust Y-axis format to show $ and commas for prices
     y_formatter = plt.FuncFormatter(lambda x, p: f'${x:,.0f}')
@@ -177,33 +211,39 @@ def generate_analysis_plot(json_file_name, output_file_name):
     # Add Legend
     plt.legend(loc='upper left', fontsize=10)
 
-    # 5. Add Statistics Output to the JPEG (Text Box)
-    stat_text_plot = (
-        f"--- Summary Statistics ---\n"
-        f"Avg. Price: {stats['avg_price']}\n"
-        f"Avg. Beds: {stats['avg_beds']}\n"
-        f"Avg. Baths: {stats['avg_baths']}\n"
-        f"Avg. Sq. Ft.: {stats['avg_sqft']} sq ft\n"
-        f"Top Agency: {stats['most_common_agency']}"
+    # 7. Add Statistics Output to the JPEG (Text Box - Clean Placement)
+    # Use the clean, top-centered placement (figure coordinates)
+    stat_text_for_box = (
+        f"Avg. Price: {stats['avg_price']} | "
+        f"Avg. Beds: {stats['avg_beds']} | "
+        f"Avg. Baths: {stats['avg_baths']} | "
+        f"Avg. Sq. Ft.: {stats['avg_sqft']} sq ft | "
+        f"Top Agency: {stats['agency_text']}"
     )
 
-    # Position the text box in the upper right corner of the plot
-    plt.text(0.98, 0.98, stat_text_plot,
-             transform=plt.gca().transAxes,
-             fontsize=10,
-             verticalalignment='top',
-             horizontalalignment='right',
-             bbox=dict(boxstyle="round,pad=0.6", fc="white", alpha=0.9, ec="gray", linewidth=0.5),
-             fontfamily='monospace')
+    # Position the text box above the main plot area
+    plt.gcf().text(0.5, 0.95, stat_text_for_box,
+                   transform=plt.gcf().transFigure,
+                   fontsize=10,
+                   verticalalignment='top',
+                   horizontalalignment='center',
+                   bbox=dict(boxstyle="round,pad=0.6", fc="white", alpha=0.9, ec="gray", linewidth=0.5))
 
-    # Ensure layout is tight to prevent truncation
-    plt.tight_layout()
+    # Ensure layout is tight and adjust for the top text box
+    plt.tight_layout(rect=[0, 0, 1, 0.9])
 
-    # 6. Save as JPEG
+    # 8. Save as JPEG
     plt.savefig(output_file_name, format='jpeg', dpi=300)
     print(f"Success! Plot and analysis exported to '{output_file_name}'")
+    plt.close()
 
 
 # Execute the script
 if __name__ == "__main__":
+    # This block allows Plot.py to be executed directly with a filename argument
+    if len(sys.argv) > 1:
+        JSON_FILE_NAME = sys.argv[1]
+        base_name = JSON_FILE_NAME.replace('.json', '')
+        OUTPUT_FILE_NAME = f'price_analysis_{base_name}.jpeg'
+
     generate_analysis_plot(JSON_FILE_NAME, OUTPUT_FILE_NAME)
