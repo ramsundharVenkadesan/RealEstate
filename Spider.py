@@ -38,7 +38,7 @@ class ListingsSpider(scrapy.Spider):
 
     def parse(self, response):
         """
-        Parses the main listings page to extract individual listing details.
+        Parses the main listings page to extract individual listing details and handle pagination.
         """
         # Selector for the gallery of listings
         gallery = response.xpath('//div[@class="si-listing"]')
@@ -97,6 +97,15 @@ class ListingsSpider(scrapy.Spider):
                     item['sq_ft'] = cleaned_data[i - 1]
 
             yield item
+
+        # --- START PAGINATION LOGIC ---
+        # Find the 'Next' button link using the class selector
+        next_page = response.xpath('//a[contains(@class, "next")]/@href').get()
+
+        if next_page:
+            self.logger.info(f"Found next page: {next_page}")
+            yield response.follow(next_page, callback=self.parse)
+        # --- END PAGINATION LOGIC ---
 
 
 # 3. Execution Block for Standalone Script
