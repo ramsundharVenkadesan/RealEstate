@@ -11,6 +11,17 @@ While the previous version relied on rigid Scrapy spiders and static JPEG report
 | UI            | REST API (Static Plots)          | Interactive Streamlit Chat |
 | Intelligence  | Rule-based Python                | Google Gemini 3-Flash |
 
+### A Detailed Comparison
+
+| Feature        | Legacy Architecture (V1)            | Agentic Evolution (V2)                          | Engineering Impact |
+|---------------|-------------------------------------|--------------------------------------------------|--------------------|
+| Logic Engine  | Rule-based Regex & Subprocesses     | Google Gemini 3-Flash (ReAct)                   | Shift from rigid scripts to autonomous reasoning |
+| Data Retrieval| Sequential Local JSON Reads         | Pinecone Vector Search (1536-d)                 | Enables semantic **understanding** over keyword matching |
+| Ingestion     | Synchronous Scrapy Crawls           | Asynchronous Tavily API Batching                | Eliminates I/O blocking and DoS risks |
+| Validation    | Manual Spot Checks                  | RAGAS Framework (Faithfulness, Relevance)       | Quantifiable accuracy via automated KPI tracking |
+| Security      | Un-sanitized Command-Line Inputs    | Structured Tool Parameters & Input Cleaning     | Hardens system against injection vectors |
+
+
 ## 🏗️ Core System Components
 ### The Knowledge Harvester (Ingestion.py)
 The system no longer just "scrapes"—it targetedly crawls.
