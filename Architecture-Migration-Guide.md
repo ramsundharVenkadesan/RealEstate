@@ -16,3 +16,14 @@ The project has evolved from a linear data-processing tool into a dynamic AI age
 ### Extraction Strategy
 * **Legacy:** Used a Scrapy engine (Spider.py) for deep crawling of specific domains with custom User-Agents.
 * **Current:** Uses a Tavily AI Crawler in Ingestion.py to perform targeted, multi-city "shallow-wide" crawls, tagging every document with city metadata for precise filtering.
+
+## Tech Stack Evolution
+| Component     | Legacy V1 (Static Pipeline) | Agentic V2 (RAG Agent) |
+|--------------|-----------------------------|------------------------|
+| Logic / Brain | Regex & Subprocesses        | Google Gemini 3-Flash (ReAct) |
+| Data Access   | Scrapy                      | Tavily AI Crawler |
+| Analysis      | Pandas & NumPy              | Semantic Embeddings (1536-d) |
+| Persistence   | Local JSON Files            | Pinecone Vector Database |
+| Interface     | FastAPI (REST API)          | Streamlit (Interactive Chat) |
+| Output        | Static JPEG Reports         | Dynamic Text, Sources, & Graphs |
+
