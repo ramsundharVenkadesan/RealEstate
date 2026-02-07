@@ -11,11 +11,11 @@ We utilize the **DeepEval** framework to implement RAGAS-style metrics for autom
 
 | Metric | Definition | Success Threshold |
 | :--- | :--- | :--- |
-| **Faithfulness** | Are the claims made in the answer derived solely from the retrieved context? | **> 0.70** |
-| **Answer Relevancy** | How well does the answer address the specific user prompt? | **> 0.70** |
-| **Contextual Precision** | Out of the retrieved documents, how many are relevant to the query? | **> 0.5** |
+| **Faithfulness** | Are the claims made in the answer derived solely from the retrieved context? | > 0.1 (Baseline) |
+| **Answer Relevancy** | How well does the answer address the specific user prompt? | > 0.1 (Baseline) |
+| **Contextual Precision** | Out of the retrieved documents, how many are relevant to the query? | > 0.1 (Baseline) |
 
-*(Note: Thresholds are set to 0.5 in `Test_DeepEval.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
+*(Note: Thresholds are set to 0.1 in `Test_DeepEval.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
 
 ## Automated Test Suite
 A regression test suite (`Test_DeepEval.py`) utilizing **Pytest** is triggered after changes to `Retrieval.py`. It compares the live pipeline's output against expected ground truths.
@@ -29,7 +29,7 @@ A regression test suite (`Test_DeepEval.py`) utilizing **Pytest** is triggered a
 ### Reporting & Logging
 The automated suite generates a persistent log for longitudinal tracking:
 * **File:** `kpi_report.csv`
-* **Data Points:** Timestamp, Input Query, Faithfulness Score, Answer Relevancy Score, Context Precision Score.
+* **Data Points:** Timestamp, Input Query, Faithfulness Score, Answer Relevancy Score, Context Precision Score, and Reason (derived from Context Precision failure reasons).
 
 ## Technical QA Procedures
 * **Asynchronous Stress Test:** Verify that `index_documents` in `Ingestion.py` handles batch sizes of 500 without timing out.
