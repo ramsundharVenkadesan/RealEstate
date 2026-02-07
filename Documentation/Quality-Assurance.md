@@ -15,7 +15,7 @@ We utilize the **DeepEval** framework to implement RAGAS-style metrics for autom
 | **Answer Relevancy** | How well does the answer address the specific user prompt? | > 0.5 (Baseline) |
 | **Contextual Precision** | Out of the retrieved documents, how many are relevant to the query? | > 0.5 (Baseline) |
 
-*(Note: Thresholds are set to 0.5 in `Test_Ragas.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
+*(Note: Thresholds are set to 0.5 in `Test_DeepEval.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
 
 ## Automated Test Suite
 A regression test suite (`Test_DeepEval.py`) utilizing **Pytest** is triggered after changes to `Retrieval.py`. It compares the live pipeline's output against expected ground truths.
