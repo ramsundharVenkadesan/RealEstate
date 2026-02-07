@@ -51,4 +51,20 @@ TAVILY_API_KEY=your_key
 * Then, launch the AI assistant:
 ```bash streamlit run FrontEnd.py```
 
+## 📚 Project Documentation Hub
+This project follows a rigorous **Product Lifecycle Management (PLM)** framework:
+
+* **[Conception]** [Product Requirements Document (PRD)](./Documentation/Product-Requirements-Document.md) 
+* **[Design]** [Architecture Migration Guide](./Documentation/Architecture-Migration-Guide.md)
+* **[Development]** [Developer & API Guide](./Documentation/Developer-Guide.md)
+* **[Quality]** [QA & Evaluation Plan](./Documentation/Quality-Assurance.md)
+* **[Service]** [User Manual](./Documentation/User-Manual.md)
+* **[Retirement]** [Archival Plan](./Documentation/Retirement-Archival.md)
+* **[Roadmap]** [Project Roadmap](./Documentation/Roadmap.md)
+
+## ⚖️ License
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+
 
