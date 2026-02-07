@@ -3,13 +3,15 @@ Welcome to the next generation of real estate analysis. This project has undergo
 While the previous version relied on rigid Scrapy spiders and static JPEG report generation via FastAPI , the new system leverages Large Language Models (LLMs) and Vector Databases to provide conversational, regionally-aware insights in real-time.
 
 ## 🚀 The Evolution: Static to Agentic
-| Feature        | Legacy System (V1)              | New Evolution (V2) |
-|---------------|----------------------------------|-------------------|
-| Architecture  | Service-Oriented ETL             | Agentic RAG |
-| Data Logic    | Hardcoded Regex & Spiders        | ReAct Logic (Reasoning + Acting) |
-| Retrieval     | Local JSON File Reads            | Pinecone Vector Search |
-| UI            | REST API (Static Plots)          | Interactive Streamlit Chat |
-| Intelligence  | Rule-based Python                | Google Gemini 3-Flash |
+| Feature              | Legacy System (V1 – Static)              | New Evolution (V2 – Agentic)              | Professional Impact                                                      |
+|----------------------|------------------------------------------|-------------------------------------------|--------------------------------------------------------------------------|
+| Logic Engine         | Rule-based Regex & Subprocesses           | Google Gemini (ReAct Framework)            | Shift from rigid scripts to autonomous reasoning                          |
+| Data Flow            | Synchronous & Blocking Pipeline           | Asynchronous Knowledge Ingestion           | Resolved DoS risks and improved scalability                               |
+| Storage              | Flat JSON Files (Static Reads)            | Pinecone Vector DB (Semantic)              | Enabled context-aware search over keyword matching                        |
+| Security             | Un-sanitized CLI Command Inputs           | Structured Tool Parameter Validation       | Hardened system against injection vulnerabilities                         |
+| Interface & Delivery | FastAPI (REST API) & Static JPEGs         | Streamlit (Conversational UI)              | Transformed a backend tool into an immersive, stateful platform           |
+| Validation           | Manual Spot Checks                        | RAGAS Framework (Faithfulness, Relevance)  | Automated KPI tracking for production-ready reliability                   |
+
 
 ### A Detailed Comparison
 
