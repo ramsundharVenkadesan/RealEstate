@@ -10,7 +10,7 @@ While the previous version relied on rigid Scrapy spiders and static JPEG report
 | Storage              | Flat JSON Files (Static Reads)            | Pinecone Vector DB (Semantic)              | Enabled context-aware search over keyword matching                        |
 | Security             | Un-sanitized CLI Command Inputs           | Structured Tool Parameter Validation       | Hardened system against injection vulnerabilities                         |
 | Interface & Delivery | FastAPI (REST API) & Static JPEGs         | Streamlit (Conversational UI)              | Transformed a backend tool into an immersive, stateful platform           |
-| Validation           | Manual Spot Checks                        | RAGAS Framework (Faithfulness, Relevance)  | Automated KPI tracking for production-ready reliability                   |
+| Validation           | Manual Spot Checks                        | DeepEval (Faithfulness, Relevance)  | Automated KPI tracking for production-ready reliability                   |
 
 
 ### A Detailed Comparison
