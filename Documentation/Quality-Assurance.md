@@ -31,6 +31,13 @@ The automated suite generates a persistent log for longitudinal tracking:
 * **File:** `kpi_report.csv`
 * **Data Points:** Timestamp, Input Query, Faithfulness Score, Answer Relevancy Score, Context Precision Score, and Reason (derived from Context Precision failure reasons).
 
+## Sample Output (`kpi_output.csv`)
+| Timestamp           | Query                                   | Faithfulness | Answer Relevancy | Context Precision | Reason |
+|---------------------|-----------------------------------------|--------------|------------------|-------------------|--------|
+| 2026-02-07 16:35:22 | What are the price trends in Tempe?      | 0.91         | 0.70             | 0.22              | The score is 0.22 because the most relevant information is poorly ranked, with the first four nodes being irrelevant to the query. Specifically, the first node does not contain any information specific to Tempe, the second node makes no mention of Tempe, etc. |
+| 2026-02-07 16:39:04 | Compare Scottsdale pricing to Prescott. | 1.00         | 0.87             | 0.39              | The score is 0.39 because multiple irrelevant nodes are ranked higher than relevant ones, starting with the first node in retrieval contexts which only provides market data for Phoenix, Chandler, Coolidge, Gold Canyon, Avondale, and Glendale, but does not mention Scottsdale or Prescott pricing. |
+
+
 ## Technical QA Procedures
 * **Asynchronous Stress Test:** Verify that `index_documents` in `Ingestion.py` handles batch sizes of 500 without timing out.
 * **Sanitization Check:** Ensure the `clean_llm_output` function in `FrontEnd.py` successfully removes artifacts (e.g., `*$`) that break Streamlit rendering.
