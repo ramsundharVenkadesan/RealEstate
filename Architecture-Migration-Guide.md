@@ -7,12 +7,12 @@ The project has evolved from a linear data-processing tool into a dynamic AI age
 * **V2 (Current):** An Agentic RAG system that utilizes a ReAct (Reasoning + Acting) framework to autonomously decide which market data to retrieve and how to filter it by geography.
 
 ## Core Architectural Transitions
-A. **Data Orchestration & Logic**
-   * **Legacy:** Orchestration was handled by Pipeline.py, which used subprocess.run() to execute scripts in a fixed order.
-   * **Current:** Orchestration is handled by a LangChain Agent in Retrieval.py. The agent identifies city-specific intent (e.g., "Globe" vs "Phoenix") and dynamically applies metadata filters to the retrieval tool.
-B. **Storage & Knowledge Base**
-   * **Legacy:** Data was persisted in local <area>.json files, which were read by analysis scripts.
-   * **Current:** Data is indexed in a Pinecone Vector Store. Content is transformed into 1536-dimensional embeddings using google-genai, allowing for semantic retrieval rather than basic keyword matching.
-C. **Extraction Strategy**
-   * **Legacy:** Used a Scrapy engine (Spider.py) for deep crawling of specific domains with custom User-Agents.
-   * **Current:** Uses a Tavily AI Crawler in Ingestion.py to perform targeted, multi-city "shallow-wide" crawls, tagging every document with city metadata for precise filtering.
+### Data Orchestration & Logic
+* **Legacy:** Orchestration was handled by Pipeline.py, which used subprocess.run() to execute scripts in a fixed order.
+* **Current:** Orchestration is handled by a LangChain Agent in Retrieval.py. The agent identifies city-specific intent (e.g., "Globe" vs "Phoenix") and dynamically applies metadata filters to the retrieval tool.
+### Storage & Knowledge Base**
+* **Legacy:** Data was persisted in local <area>.json files, which were read by analysis scripts.
+* **Current:** Data is indexed in a Pinecone Vector Store. Content is transformed into 1536-dimensional embeddings using google-genai, allowing for semantic retrieval rather than basic keyword matching.
+### Extraction Strategy**
+* **Legacy:** Used a Scrapy engine (Spider.py) for deep crawling of specific domains with custom User-Agents.
+* **Current:** Uses a Tavily AI Crawler in Ingestion.py to perform targeted, multi-city "shallow-wide" crawls, tagging every document with city metadata for precise filtering.
