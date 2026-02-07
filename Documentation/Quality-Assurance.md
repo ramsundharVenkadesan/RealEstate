@@ -11,9 +11,9 @@ We utilize the **DeepEval** framework to implement RAGAS-style metrics for autom
 
 | Metric | Definition | Success Threshold |
 | :--- | :--- | :--- |
-| **Faithfulness** | Are the claims made in the answer derived solely from the retrieved context? | > 0.5 (Baseline) |
-| **Answer Relevancy** | How well does the answer address the specific user prompt? | > 0.5 (Baseline) |
-| **Contextual Precision** | Out of the retrieved documents, how many are relevant to the query? | > 0.5 (Baseline) |
+| **Faithfulness** | Are the claims made in the answer derived solely from the retrieved context? | **> 0.70** |
+| **Answer Relevancy** | How well does the answer address the specific user prompt? | **> 0.70** |
+| **Contextual Precision** | Out of the retrieved documents, how many are relevant to the query? | **> 0.5** |
 
 *(Note: Thresholds are set to 0.5 in `Test_DeepEval.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
 
