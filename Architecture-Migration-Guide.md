@@ -33,3 +33,8 @@ The migration directly addressed critical "Future Work" items identified in the 
 * **Input Sanitization:** V1 relied on un-sanitized user input to construct command arguments, creating injection vectors. V2 uses structured tool parameters in Retrieval.py, where the agent validates and cleans city names before applying metadata filters.
 * **Mitigating Bias:** The V2 architecture introduced targeted city crawls to ensure smaller Arizona towns like Globe are represented, preventing the "Phoenix Bias" inherent in the legacy general crawl.
 
+## Summary of Migration Benefits
+1. **Semantic Intelligence:** The system now understands why properties are high-end (e.g., mountain views, historic charm) rather than just looking for price keywords.
+2. **Multimodal Interactivity:** Users can interact with the data via a chat interface that persists session history, a significant upgrade over static JPEG report generation.
+3. **Scalability:** The move to Pinecone allows the system to scale to millions of listings across all 90+ Arizona municipalities.
+
