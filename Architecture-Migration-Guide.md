@@ -27,3 +27,9 @@ The project has evolved from a linear data-processing tool into a dynamic AI age
 | Interface     | FastAPI (REST API)          | Streamlit (Interactive Chat) |
 | Output        | Static JPEG Reports         | Dynamic Text, Sources, & Graphs |
 
+## Security & Operational Maturity
+The migration directly addressed critical "Future Work" items identified in the initial version.
+* **Solving Synchronous Blocking:** V1 suffered from "Synchronous I/O," where the API thread would block for the entire crawl duration, creating a DoS risk. V2 utilizes asynchronous document indexing in Ingestion.py to handle large datasets without blocking the main thread.
+* **Input Sanitization:** V1 relied on un-sanitized user input to construct command arguments, creating injection vectors. V2 uses structured tool parameters in Retrieval.py, where the agent validates and cleans city names before applying metadata filters.
+* **Mitigating Bias:** The V2 architecture introduced targeted city crawls to ensure smaller Arizona towns like Globe are represented, preventing the "Phoenix Bias" inherent in the legacy general crawl.
+
