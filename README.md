@@ -35,9 +35,9 @@ A modern, multimodal chat experience built with Streamlit.
 
 ## 🚦 Getting Started
 1. **Environment Configuration**
-Create a .env file with the following keys:
-# Environment Variables
+```bash
 GOOGLE_API_KEY=your_key
 PINECONE_API_KEY=your_key
 INDEX_NAME=arizona-real-estate
 TAVILY_API_KEY=your_key
+
