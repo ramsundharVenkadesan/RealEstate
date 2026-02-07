@@ -18,7 +18,7 @@ We utilize the **DeepEval** framework to implement RAGAS-style metrics for autom
 *(Note: Thresholds are set to 0.5 in `Test_Ragas.py` for initial pass/fail regression testing, with a goal to increase them as the model matures.)*
 
 ## Automated Test Suite
-A regression test suite (`Test_Ragas.py`) utilizing **Pytest** is triggered after changes to `Retrieval.py`. It compares the live pipeline's output against expected ground truths.
+A regression test suite (`Test_DeepEval.py`) utilizing **Pytest** is triggered after changes to `Retrieval.py`. It compares the live pipeline's output against expected ground truths.
 
 ### Benchmark Queries (Automated)
 * **Market Trends:** "What are the price trends in Tempe?"
@@ -34,7 +34,7 @@ The automated suite generates a persistent log for longitudinal tracking:
 ## Technical QA Procedures
 * **Asynchronous Stress Test:** Verify that `index_documents` in `Ingestion.py` handles batch sizes of 500 without timing out.
 * **Sanitization Check:** Ensure the `clean_llm_output` function in `FrontEnd.py` successfully removes artifacts (e.g., `*$`) that break Streamlit rendering.
-* **Metric Automation:** Ensure `Test_Ragas.py` suppresses asyncio/deprecation warnings to produce clean console output during CI/CD runs.
+* **Metric Automation:** Ensure `Test_DeepEval.py` suppresses asyncio/deprecation warnings to produce clean console output during CI/CD runs.
 
 ## Continuous Improvement Loop
 The evaluation and maintenance of the Arizona Real Estate AI follow an iterative lifecycle designed to refine the agent's regional intelligence and close knowledge gaps.
