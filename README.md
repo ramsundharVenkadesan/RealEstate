@@ -43,12 +43,12 @@ INDEX_NAME=arizona-real-estate
 TAVILY_API_KEY=your_key
 ```
 2. **Installation**
-```bash pip install streamlit langchain-google-genai langchain-pinecone langchain-tavily pandas python-dotenv```
+* Command: ```bash pip install streamlit langchain-google-genai langchain-pinecone langchain-tavily pandas python-dotenv```
 
 3. **Execution**
-First, populate your vector store:
+* First, populate your vector store:
 ```bash python Ingestion.py```
-Then, launch the AI assistant:
+* Then, launch the AI assistant:
 ```bash streamlit run FrontEnd.py```
 
 
