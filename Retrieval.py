@@ -1,6 +1,8 @@
+import json
 import os
+import re
 
-from typing import Any, Dict
+from typing import Any, Dict, Union, List
 from dotenv import load_dotenv
 
 from langchain.agents import create_agent
@@ -47,6 +49,8 @@ def run_llm(query:str) -> Dict[str, Any]:
                 -Context: The relevant context retrieved from the vector store.
     """
 
+    tools = [context]
+
     system_message = (
         "You are an expert Arizona Real Estate Assistant. "
         "When a user asks about a specific town (e.g., Globe, Mesa), "
@@ -69,7 +73,7 @@ def run_llm(query:str) -> Dict[str, Any]:
         if (isinstance(message, ToolMessage)) and (
         hasattr(message, 'artifact')):
             context_docs.extend(message.artifact)
-    return {"answer": answer, "context": context_docs}  # Context is the list of documents in the artifact attribute
+    return {"answer": answer, "context": context_docs}  # Context is the list of documents in the artifact attribute'''
 
 if __name__ == "__main__":
     response = run_llm("Which areas in Arizona have the best price-per-square-foot?")
