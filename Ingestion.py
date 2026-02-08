@@ -21,7 +21,7 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001", s
 vector_store = PineconeVectorStore(embedding=embeddings, index_name=os.environ.get("INDEX_NAME"))
 tavily_crawl = TavilyCrawl()
 all_docs = []
-priority_towns = ["Phoenix", "Globe", "Scottsdale", "Tucson", "Sedona", "Prescott"]
+priority_towns = ["Phoenix", "Globe", "Scottsdale", "Tucson", "Sedona", "Prescott", "Tempe", "Gilbert"]
 for town in priority_towns:
     print(f"Targeting data for: {town}")
     # Targeted crawl for each town
@@ -40,12 +40,6 @@ for town in priority_towns:
                     "city": town.lower()  # Tag with city for filtering
                 }
             ))
-
-for res in result['results']:
-    if res.get('raw_content'):
-        all_docs.append(Document(
-            page_content=res['raw_content'],
-            metadata={"source": res['url']}))
 
 print(f"Successfully processed {len(all_docs)} documents.")
 text_spliter = RecursiveCharacterTextSplitter(chunk_size=4000, chunk_overlap=200)
