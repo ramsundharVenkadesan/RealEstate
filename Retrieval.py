@@ -4,17 +4,14 @@ from typing import Any, Dict
 from dotenv import load_dotenv
 
 from langchain.agents import create_agent
-from langchain_classic.agents.react.agent import create_react_agent # Import function to create a react agent
 from langchain.chat_models import init_chat_model
 
 from langchain.messages import ToolMessage
 from langchain.tools import tool
-from langchain_classic.agents import AgentExecutor
 
 from langchain_pinecone import PineconeVectorStore
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-from langchain_classic import hub
 
 
 load_dotenv()
@@ -56,6 +53,7 @@ def run_llm(query:str) -> Dict[str, Any]:
         "extract the city name and pass it to the 'context' tool's 'city' parameter. "
         "This ensures you get data for that specific area rather than general Phoenix trends."
     )
+
     agent = create_agent(model, tools=[context], system_prompt=system_message)
     messages = [{"role": "user", "content": query}]
     response = agent.invoke({"messages": messages})
@@ -69,8 +67,8 @@ def run_llm(query:str) -> Dict[str, Any]:
     context_docs = []
     for message in response['messages']:
         if (isinstance(message, ToolMessage)) and (
-        hasattr(message, 'artifact')):  # Artifact attribute when tool is executed
-            context_docs.extend(message.artifact)  # Value assigned to artifact is a list
+        hasattr(message, 'artifact')):
+            context_docs.extend(message.artifact)
     return {"answer": answer, "context": context_docs}  # Context is the list of documents in the artifact attribute
 
 if __name__ == "__main__":

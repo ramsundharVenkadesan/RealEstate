@@ -15,14 +15,13 @@ ssl_context = ssl.create_default_context(cafile=certifi.where())
 os.environ["SSL_CERT_FILE"] = certifi.where()
 os.environ["REQUEST_CA_BUNDLE"] = certifi.where()
 
-priority_towns = ["Phoenix", "Globe", "Scottsdale", "Tucson", "Sedona", "Prescott"]
-
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001", show_progress_bar=True,
                                           chunk_size=500, retry_min_seconds=10, output_dimensionality=1536)
 
 vector_store = PineconeVectorStore(embedding=embeddings, index_name=os.environ.get("INDEX_NAME"))
 tavily_crawl = TavilyCrawl()
 all_docs = []
+priority_towns = ["Phoenix", "Globe", "Scottsdale", "Tucson", "Sedona", "Prescott"]
 for town in priority_towns:
     print(f"Targeting data for: {town}")
     # Targeted crawl for each town
@@ -41,6 +40,12 @@ for town in priority_towns:
                     "city": town.lower()  # Tag with city for filtering
                 }
             ))
+
+for res in result['results']:
+    if res.get('raw_content'):
+        all_docs.append(Document(
+            page_content=res['raw_content'],
+            metadata={"source": res['url']}))
 
 print(f"Successfully processed {len(all_docs)} documents.")
 text_spliter = RecursiveCharacterTextSplitter(chunk_size=4000, chunk_overlap=200)

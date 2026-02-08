@@ -49,8 +49,6 @@ class GoogleGemini(DeepEvalBaseLLM):
 
 google_gemini = GoogleGemini(model_name="gemini-3-flash-preview")
 
-# 3. METRICS (Thresholds set to 0.1 for BASELINE LOGGING)
-# We lower these so the test doesn't crash, allowing us to collect data.
 faithfulness = FaithfulnessMetric(threshold=0.1, model=google_gemini, include_reason=True)
 answer_relevancy = AnswerRelevancyMetric(threshold=0.1, model=google_gemini, include_reason=True)
 context_precision = ContextualPrecisionMetric(threshold=0.1, model=google_gemini, include_reason=True)
