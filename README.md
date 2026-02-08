@@ -74,6 +74,7 @@ This project follows a rigorous **Product Lifecycle Management (PLM)** framework
 * **[Service]** [User Manual](./Documentation/User-Manual.md)
 * **[Retirement]** [Archival Plan](./Documentation/Retirement-Archival.md)
 * **[Roadmap]** [Project Roadmap](./Documentation/Roadmap.md)
+* **[Limitations]** [System Limitations & Constraints](./Documentation/Limitation.md)
 
 ## ⚖️ License
 Distributed under the MIT License. See `LICENSE` for more information.
