@@ -38,27 +38,3 @@ The migration directly addressed critical "Future Work" items identified in the 
 2. **Multimodal Interactivity:** Users can interact with the data via a chat interface that persists session history, a significant upgrade over static JPEG report generation.
 3. **Scalability:** The move to Pinecone allows the system to scale to millions of listings across all 90+ Arizona municipalities.
 
-```mermaid
-graph TD
-    subgraph "Legacy V1: Static ETL Pipeline"
-        A[Scrapy Spider.py] -->|Crawl| B[Local .json Files]
-        B -->|Read| C[Pipeline.py Orchestrator]
-        C -->|Subprocess| D[Pandas Analysis]
-        D -->|Generate| E[Static JPEG Report]
-        style A fill:#f9f,stroke:#333,stroke-width:2px
-        style C fill:#f9f,stroke:#333,stroke-width:2px
-        style E fill:#e1f5fe,stroke:#333,stroke-width:2px
-    end
-
-    subgraph "Agentic V2: RAG Intelligence"
-        F[Tavily AI Crawler] -->|Async Ingest| G[Pinecone Vector Store]
-        G <-->|Semantic Retrieval| H[Retrieval.py]
-        H <-->|Reasoning ReAct| I((Gemini 3-Flash Agent))
-        I -->|Interactive Response| J[Streamlit Chat Interface]
-        style F fill:#b2ebf2,stroke:#333,stroke-width:2px
-        style I fill:#ffcc80,stroke:#333,stroke-width:4px
-        style G fill:#b2ebf2,stroke:#333,stroke-width:2px
-        style J fill:#c8e6c9,stroke:#333,stroke-width:2px
-    end
-```
-
