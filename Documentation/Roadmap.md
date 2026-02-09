@@ -2,7 +2,7 @@
 This roadmap defines the evolution of the system from a standard RAG agent to a self-correcting, cloud-native intelligence platform.
 
 ## Phase 1: Precision & Standardization (Q2 2026)
-* **Model Context Protocol (MCP) Integration:** Adopt the Model Context Protocol to standardize how the agent interfaces with the `context` tool and future APIs (e.g., Zillow/Redfin), ensuring a modular "plug-and-play" architecture for data sources.
+* **Model Context Protocol (MCP):** Implementing MCP to standardize the agent's connection to data sources, enabling deeper, structured search and retrieval across disparate inputs (e.g., merging MLS feeds with local vector data).
 * **Hybrid Retrieval:** Implement BM25 (keyword) search alongside vector search to capture specific property IDs or street names that semantic search might miss.
 * **Geographic Expansion:** Automate the `priority_towns` list by integrating with an Arizona municipal API to crawl all 90+ cities.
 
