@@ -31,7 +31,7 @@ The automated suite generates a persistent log for longitudinal tracking:
 * **File:** `kpi_report.csv`
 * **Data Points:** Timestamp, Input Query, Faithfulness Score, Answer Relevancy Score, Context Precision Score, and Reason (derived from Context Precision failure reasons).
 
-## Sample Output (`kpi_output.csv`)
+## Sample Output (`kpi_report.csv`)
 | Timestamp           | Query                                   | Faithfulness | Answer Relevancy | Context Precision | Reason |
 |:--------------------|:----------------------------------------|-------------:|-----------------:|------------------:|:-------|
 | 2026-02-08 20:08:21 | What are the price trends in Tempe?     |         0.87 |             0.89 |              1.00 | The score is 1.00 because all relevant nodes are perfectly prioritized at the top of the list! The first node captures essential "Tempe Trends / February 7, 2026" and the "Residential Median List Price: $482,500," while the second and third nodes establish a helpful "mix of residential listings." The fourth node further details "past sales history, dates and prices of homes recently sold nearby," correctly ensuring that the irrelevant fifth node—which is just a "general navigation menu and contact page"—is ranked last. |
