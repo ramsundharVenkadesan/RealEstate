@@ -38,6 +38,7 @@ The migration directly addressed critical "Future Work" items identified in the 
 2. **Multimodal Interactivity:** Users can interact with the data via a chat interface that persists session history, a significant upgrade over static JPEG report generation.
 3. **Scalability:** The move to Pinecone allows the system to scale to millions of listings across all 90+ Arizona municipalities.
 
+```mermaid
 graph TD
     subgraph "Legacy V1: Static ETL Pipeline"
         A[Scrapy Spider.py] -->|Crawl| B[Local .json Files]
@@ -59,4 +60,5 @@ graph TD
         style G fill:#b2ebf2,stroke:#333,stroke-width:2px
         style J fill:#c8e6c9,stroke:#333,stroke-width:2px
     end
+```
 
