@@ -1,18 +1,25 @@
-# Project Roadmap
-The roadmap defines the evolution of the Arizona Real Estate AI from its current state to a production-ready enterprise platform.
+# Project Roadmap: Arizona Real Estate AI (V3)
+This roadmap defines the evolution of the system from a standard RAG agent to a self-correcting, cloud-native intelligence platform.
 
-## Phase 1: Precision & Scale (Q1 2026)
+## Phase 1: Precision & Standardization (Q1 2026)
+* **Model Context Protocol (MCP) Integration:** Adopt the Model Context Protocol to standardize how the agent interfaces with the `context` tool and future APIs (e.g., Zillow/Redfin), ensuring a modular "plug-and-play" architecture for data sources.
 * **Hybrid Retrieval:** Implement BM25 (keyword) search alongside vector search to capture specific property IDs or street names that semantic search might miss.
 * **Geographic Expansion:** Automate the `priority_towns` list by integrating with an Arizona municipal API to crawl all 90+ cities.
 
-## Phase 2: Advanced Reasoning (Q2 2026)
-* **Agent Memory:** Transition from session-only memory to persistent Vectorized Memory, allowing the agent to remember a user's specific preferences across different weeks.
-* **Multi-Step Planning:** Upgrade to LangGraph to allow the agent to perform complex workflows, such as "Find properties in Mesa AND calculate the estimated 30-year mortgage for each".
+## Phase 2: Agentic Reflection & Reasoning (Q2 2026)
+* **Reflective Agent Workflow (LangGraph):** Migrate from a simple ReAct loop to a **LangGraph state machine**. Implement a "Reflection" node that critiques the retrieved documents *before* generating an answer.
+    * *Workflow:* Retrieve $\rightarrow$ Grade Documents (Is it relevant?) $\rightarrow$ If No: Rewrite Query & Retry $\rightarrow$ If Yes: Generate Answer.
+* **Agent Memory:** Transition from session-only memory to persistent Vectorized Memory, allowing the agent to remember a user's specific preferences (e.g., "I only like mid-century modern") across different weeks.
 
-## Phase 3: Multimodal Intelligence (Q3 2026)
+## Phase 3: DevOps & Cloud-Native Deployment (Q3 2026)
+* **Containerization (Docker):** Dockerize the application (Streamlit frontend + LangChain backend) to ensure environment consistency across development and production.
+* **Infrastructure as Code (Terraform):** Define the entire Google Cloud infrastructure (Cloud Run services, Pinecone connectors, Secret Manager) in Terraform modules for reproducible deployments.
+* **CI/CD Pipeline:** Implement a GitHub Actions workflow that runs the `Test_DeepEval.py` suite and, upon passing, automatically builds and pushes the Docker image to the container registry.
+
+## Phase 4: Multimodal & Human-Centric Intelligence (Q4 2026)
 * **Visual Sentiment Analysis:** Use Gemini’s vision capabilities to analyze listing photos and verify descriptions (e.g., confirming "granite countertops" or "mountain views").
-* **Predictive Valuation:** Integrate historical transaction data to provide a "Market Heat Index" forecasting price changes over the next 3 months.
+* **Evaluator-Optimizer Loop:** Implement an offline "Optimizer" agent that reviews low-scoring user sessions (from the DeepEval logs) and automatically generates better synthetic examples to fine-tune the prompt or few-shot examples.
 
-## Operational Excellence (Q4 2026)
-* **Infrastructure:** Deploy via Docker on AWS ECS or Google Cloud Run with auto-scaling triggered by latency spikes.
-* **Cost Monitoring:** Implement a real-time token dashboard to track spending per query and optimize cost-to-accuracy ratios.
+## Operational Excellence (Ongoing)
+* **Cost Monitoring:** Implement a real-time token dashboard to track spending per query.
+* **Latency Optimization:** Cache frequent queries (e.g., "Market trends in Phoenix") to reduce LLM calls and speed up response times.
